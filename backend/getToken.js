@@ -3,19 +3,16 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 async function getToken() {
-    const url = 'https://bima.upnyk.ac.id/login'; // URL login
-    const username = process.env.NIM; // Ganti dengan username yang valid
-    const password = process.env.PASSWORD; // Ganti dengan password Anda
+    const url = 'https://bima.upnyk.ac.id/login';
+    const username = process.env.NIM;
+    const password = process.env.PASSWORD;
 
     try {
-        // Mengambil halaman login untuk mendapatkan CSRF token
         const loginPageResponse = await axios.get(url);
         const $ = cheerio.load(loginPageResponse.data);
 
-        // Mengambil CSRF token dari elemen yang sesuai
         const csrfToken = $('input[name="_token"]').val();
 
-        // Mengirim permintaan POST untuk login
         const response = await axios.post(url, new URLSearchParams({
             'username': username,
             'password': password,
@@ -28,18 +25,15 @@ async function getToken() {
             }
         });
 
-        // Menggunakan Cheerio untuk mem-parsing HTML dan mengambil token
         const $response = cheerio.load(response.data);
         const scripts = $response('script');
 
-        // Mengambil isi dari tag <script> kedua
         const secondScriptContent = $response(scripts[1]).html();
 
-        // Mencari token dalam isi script
         const tokenMatch = secondScriptContent.match(/localStorage\.setItem\("token", "(.*?)"\)/);
 
         if (tokenMatch && tokenMatch[1]) {
-            return tokenMatch[1]; // Return the token
+            return tokenMatch[1];
         } else {
             console.log('Token tidak ditemukan.');
         }
@@ -72,7 +66,6 @@ async function getJson(token) {
     }
 }
 
-// Fungsi untuk mengonversi nama hari ke angka
 function dayToNumber(day) {
     const days = {
         "Senin": 1,
@@ -83,46 +76,41 @@ function dayToNumber(day) {
         "Sabtu": 6,
         "Minggu": 7
     };
-    return days[day] || 0; // Kembalikan 0 jika hari tidak valid
+    return days[day] || 0;
 }
 
-// Fungsi untuk mengurutkan mata kuliah berdasarkan jadwal
 function sortBySchedule(grades) {
     return grades.sort((a, b) => {
-        // Ambil jadwal pertama
+
         const scheduleA = a.jadwal[0];
         const scheduleB = b.jadwal[0];
 
-        // Ekstrak hari dan waktu dari jadwal
+
         const [dayA, timeA] = scheduleA.split(' ', 2);
         const [dayB, timeB] = scheduleB.split(' ', 2);
 
-        // Konversi hari ke angka
+
         const dayNumA = dayToNumber(dayA);
         const dayNumB = dayToNumber(dayB);
 
-        // Ambil waktu mulai dari jadwal
-        const startTimeA = timeA.split(' - ')[0]; // Ambil waktu mulai
-        const startTimeB = timeB.split(' - ')[0]; // Ambil waktu mulai
+        const startTimeA = timeA.split(' - ')[0];
+        const startTimeB = timeB.split(' - ')[0];
 
-        // Konversi waktu ke format yang bisa dibandingkan
         const [hourA, minuteA] = startTimeA.split(':').map(Number);
         const [hourB, minuteB] = startTimeB.split(':').map(Number);
 
-        // Bandingkan hari dan waktu
-        return dayNumA - dayNumB || hourA - hourB || minuteA - minuteB; // Urutkan berdasarkan hari, jam, dan menit
+        return dayNumA - dayNumB || hourA - hourB || minuteA - minuteB;
     });
 }
 
-// Fungsi untuk mendapatkan data mata kuliah yang sudah diurutkan
 async function getSortedMatkul() {
     try {
-        const token = await getToken(); // Tunggu hingga login selesai
+        const token = await getToken();
         if (token) {
-            const grades = await getJson(token); // Tunggu hingga data diterima
-            return sortBySchedule(grades); // Mengurutkan berdasarkan jadwal
+            const grades = await getJson(token);
+            return sortBySchedule(grades);
         }
-        return []; // Return an empty array if token is not obtained
+        return [];
     } catch (error) {
         console.error('Error:', error);
         return [];
