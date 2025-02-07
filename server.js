@@ -1,5 +1,5 @@
 const http = require('http');
-const { getSortedMatkul } = require('./getToken'); // Mengimpor fungsi dari getMatkul.js
+const { getSortedMatkul } = require('./backend/getToken'); // Mengimpor fungsi dari getMatkul.js
 
 // Fungsi untuk menangani permintaan HTTP
 async function handleRequest(req, res) {
