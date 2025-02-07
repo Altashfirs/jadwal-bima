@@ -123,24 +123,14 @@ function sortBySchedule(grades) {
     });
 }
 
-// Memanggil fungsi getGrade dan mencetak hasilnya ke console
+// Memanggil fungsi getGrade dan mencetak hasilnya ke console dalam format JSON
 (async () => {
     try {
         const grades = await getGrade(); // Menunggu hingga getGrade selesai
         const sortedGrades = sortBySchedule(grades); // Mengurutkan berdasarkan jadwal
         console.log('Data Mata Kuliah (Diurutkan berdasarkan Jadwal):');
-        sortedGrades.forEach((mk) => {
-            console.log(`- Kode MK: ${mk.kode_mk}`);
-            console.log(`  Nama MK: ${mk.nama_mk}`);
-            console.log(`  Semester: ${mk.semester}`);
-            console.log(`  SKS: ${mk.sks}`);
-            console.log(`  Kelas: ${mk.kelas}`);
-            console.log(`  Jadwal: ${mk.jadwal.join(', ')}`);
-            console.log(`  Dosen: ${mk.dosen.join(', ')}`);
-            console.log(`  Tanggal Input: ${mk.tanggal_input}`);
-            console.log('-----------------------------------');
-        });
+        console.log(JSON.stringify(sortedGrades, null, 2)); // Cetak hasil dalam format JSON
     } catch (error) {
         console.error('Error:', error);
     }
-})();
+})()
