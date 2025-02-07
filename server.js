@@ -1,17 +1,17 @@
 const http = require('http');
-const { getSortedMatkul } = require('./backend/getToken'); // Mengimpor fungsi dari getMatkul.js
+const { getSortedMatkul } = require('./backend/getToken');
 
 // Fungsi untuk menangani permintaan HTTP
 async function handleRequest(req, res) {
     // Menambahkan header CORS
-    res.setHeader('Access-Control-Allow-Origin', '*'); // Mengizinkan semua origin
-    res.setHeader('Access-Control-Allow-Methods', 'GET'); // Mengizinkan metode GET
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); // Mengizinkan header tertentu
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     if (req.method === 'GET' && req.url === '/') {
         try {
-            const grades = await getSortedMatkul(); // Mengambil data mata kuliah
-            // Mengirimkan data sebagai respons JSON
+            const grades = await getSortedMatkul();
+
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(grades, null, 2));
         } catch (error) {
@@ -25,11 +25,9 @@ async function handleRequest(req, res) {
     }
 }
 
-// Membuat server HTTP
 const server = http.createServer(handleRequest);
 
-// Menjalankan server
 const port = 3000;
 server.listen(port, () => {
-    console.log(`Server berjalan di http://localhost:${port}`);
+    console.log(`Server berjalan di ${port}`);
 });
