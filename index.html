@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Kuliah</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <main class="space-y-6 p-6">
+        <div class="flex flex-col items-stretch justify-between space-y-2 md:flex-row md:items-center">
+            <div class="flex flex-col gap-1">
+                <h2 class="text-3xl font-bold tracking-tight">Jadwal Kuliah</h2>
+                <p class="text-muted-foreground">Lihat jadwal lengkap perkuliahan anda</p>
+            </div>
+            <input type="text" id="searchInput" placeholder="Cari mata kuliah..." class="search-input">
+        </div>
+        <div class="relative w-full overflow-auto rounded-md border">
+            <table class="min-w-full caption-bottom text-sm" id="courseTable">
+                <thead class="bg-muted">
+                    <tr>
+                        <th class="h-12 px-4 text-left align-middle font-semibold">Kurikulum</th>
+                        <th class="h-12 px-4 text-left align-middle font-semibold">Kode MK</th>
+                        <th class="h-12 px-4 text-left align-middle font-semibold">Nama MK</th>
+                        <th class="h-12 px-4 text-left align-middle font-semibold">Kelas</th>
+                        <th class="h-12 px-4 text-left align-middle font-semibold">SKS</th>
+                        <th class="h-12 px-4 text-left align-middle font-semibold">Jadwal</th>
+                        <th class="h-12 px-4 text-left align-middle font-semibold">Dosen</th>
+                    </tr>
+                </thead>
+                <tbody id="courseBody">
+                    <!-- Data will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>

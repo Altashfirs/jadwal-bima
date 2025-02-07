@@ -72,15 +72,6 @@ async function getJson(token) {
     }
 }
 
-// Fungsi utama untuk menjalankan login dan mendapatkan grade
-async function getGrade() {
-    const token = await getToken(); // Tunggu hingga login selesai
-    if (token) {
-        return await getJson(token); // Return the grades if token is successfully obtained
-    }
-    return []; // Return an empty array if token is not obtained
-}
-
 // Fungsi untuk mengonversi nama hari ke angka
 function dayToNumber(day) {
     const days = {
@@ -123,14 +114,21 @@ function sortBySchedule(grades) {
     });
 }
 
-// Memanggil fungsi getGrade dan mencetak hasilnya ke console dalam format JSON
-(async () => {
+// Fungsi untuk mendapatkan data mata kuliah yang sudah diurutkan
+async function getSortedMatkul() {
     try {
-        const grades = await getGrade(); // Menunggu hingga getGrade selesai
-        const sortedGrades = sortBySchedule(grades); // Mengurutkan berdasarkan jadwal
-        console.log('Data Mata Kuliah (Diurutkan berdasarkan Jadwal):');
-        console.log(JSON.stringify(sortedGrades, null, 2)); // Cetak hasil dalam format JSON
+        const token = await getToken(); // Tunggu hingga login selesai
+        if (token) {
+            const grades = await getJson(token); // Tunggu hingga data diterima
+            return sortBySchedule(grades); // Mengurutkan berdasarkan jadwal
+        }
+        return []; // Return an empty array if token is not obtained
     } catch (error) {
         console.error('Error:', error);
+        return [];
     }
-})()
+}
+
+module.exports = {
+    getSortedMatkul
+};
