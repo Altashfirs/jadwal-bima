@@ -13,11 +13,12 @@
         <div class="flex flex-col items-stretch justify-between space-y-2 md:flex-row md:items-center">
             <div class="flex flex-col gap-1">
                 <h2 class="text-3xl font-bold tracking-tight">Jadwal Kuliah</h2>
+                <div id="totalSKS" class="mt-4"></div>
                 <p class="text-muted-foreground">Lihat jadwal lengkap perkuliahan anda</p>
             </div>
             <input type="text" id="searchInput" placeholder="Cari mata kuliah..." class="search-input">
         </div>
-        <div class="relative w-full overflow-auto rounded-md border">
+        <div class="relative w-full overflow-hidden rounded-md border" style="max-height: 80vh;">
             <table class="min-w-full caption-bottom text-sm" id="courseTable">
                 <thead class="bg-muted">
                     <tr>
@@ -35,6 +36,7 @@
                 </tbody>
             </table>
         </div>
+
     </main>
     <script src="script.js"></script>
 </body>

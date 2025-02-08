@@ -1,5 +1,5 @@
 const http = require('http');
-const { getSortedMatkul } = require('./backend/getToken');
+const { getSortedMatkul } = require('./getToken');
 
 // Fungsi untuk menangani permintaan HTTP
 async function handleRequest(req, res) {
@@ -8,7 +8,7 @@ async function handleRequest(req, res) {
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    if (req.method === 'GET' && req.url === '/') {
+    if (req.method === 'GET' && req.url === '/api') {
         try {
             const grades = await getSortedMatkul();
 

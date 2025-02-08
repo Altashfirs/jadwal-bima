@@ -63,7 +63,7 @@ main {
     position: relative;
 }
 
-.overflow-auto {
+.overflow-hidden {
     overflow: auto;
 }
 
@@ -85,4 +85,9 @@ table td {
 
 table th {
     background-color: #f9fafb;
+}
+
+#totalSKS {
+    font-size: 1rem;
+    font-weight: 500;
 }

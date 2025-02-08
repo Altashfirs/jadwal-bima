@@ -1,13 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     const courseBody = document.getElementById('courseBody');
     const searchInput = document.getElementById('searchInput');
+    const totalSKSContainer = document.getElementById('totalSKS');
 
     // Fetch data from the API
     async function fetchCourses() {
         try {
-            const response = await fetch('http://localhost:3000/');
+            const response = await fetch('http://localhost:3000/api');
             const courses = await response.json();
             populateTable(courses);
+            calculateTotalSKS(courses);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -29,6 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             courseBody.appendChild(row);
         });
+    }
+
+    // Calculate total SKS
+    function calculateTotalSKS(courses) {
+        const totalSKS = courses.reduce((sum, course) => sum + course.sks, 0);
+        totalSKSContainer.textContent = `Total SKS: ${totalSKS}`;
     }
 
     // Search functionality
