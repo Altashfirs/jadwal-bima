@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch data from the API
     async function fetchCourses() {
         try {
-            const response = await fetch('http://localhost:3000/api');
+            const response = await fetch('https://jadwal-bima-production.up.railway.app/api');
             const courses = await response.json();
             populateTable(courses);
             calculateTotalSKS(courses);
