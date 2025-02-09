@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchCourses(parameter_jadwal) {
         try {
-            const response = await fetch(`http://localhost:3000/api/matkul?params=${parameter_jadwal}`);
+            const response = await fetch(`http://jadwal-bima-production.up.railway.app/api/matkul?params=${parameter_jadwal}`);
             const courses = await response.json();
             populateTable(courses);
             calculateTotalSKS(courses);
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchSemesters() {
         try {
-            const response = await fetch('http://localhost:3000/api/semester');
+            const response = await fetch('http://jadwal-bima-production.up.railway.app/api/semester');
             const semesters = await response.json();
             populateDropdown(semesters);
 
