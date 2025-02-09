@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch data from the API based on selected parameter_jadwal
     async function fetchCourses(parameter_jadwal) {
         try {
-            const response = await fetch(`http://localhost:3000/api/semester?params=${parameter_jadwal}`);
+            const response = await fetch(`http://localhost:3000/api/matkul?params=${parameter_jadwal}`);
+            console.log(parameter_jadwal)
             const courses = await response.json();
             populateTable(courses);
             calculateTotalSKS(courses);

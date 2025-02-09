@@ -1,18 +1,11 @@
 const axios = require('axios');
 const { getToken } = require('./getToken');
 
-async function getJson(token, url) {
-    let params;
-    if (url === '/api/2024') {
-        params = '9EVln1JNwT1WffbEyiCKe1B0gDnLLyaxLLa7ck_kxtWYnlVKwRnqv4FVPk2slIsIfEP8BQagDsV4GzGzf2rVF0QdAl1RPdnZwHrNYahgpQzuL933Y6oIMH2osJiQNG7lyajT5VDUde9lmiZ52ayHRA';
-    } else if (url === '/api/2023') {
-        params = '9EVln1JNwT1WffbEyiCKe1B0gDnLLyaxLLa7ck_kxtWYnlVKwRnqv4FVPk2slIsIfEP8BQagDsV4GzGzf2rVF0QdAl1RPdnZwHrNYahgpQz4ZCiBqJ3y9EqXYlu4aCAgyajT5VDUde9lmiZ52ayHRA';
-    }
-
+async function getJson(token, parameter_jadwal) {
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `https://apibima.upnyk.ac.id/v2/jadkul/detail?params=${params}`,
+        url: `https://apibima.upnyk.ac.id/v2/jadkul/detail?params=${parameter_jadwal}`,
         headers: {
             'Jwt': token,
         }
@@ -69,11 +62,11 @@ function sortBySchedule(grades) {
     });
 }
 
-async function getSortedMatkul(url) {
+async function getSortedMatkul(parameter_jadwal) {
     try {
         const token = await getToken();
         if (token) {
-            const grades = await getJson(token, url);
+            const grades = await getJson(token, parameter_jadwal);
             return sortBySchedule(grades);
         }
         return [];
