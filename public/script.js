@@ -4,10 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalSKSContainer = document.getElementById('totalSKS');
     const semesterDropdown = document.getElementById('semesterDropdown');
 
-    // Fetch data from the API
-    async function fetchCourses() {
+    // Fetch data from the API based on selected parameter_jadwal
+    async function fetchCourses(parameter_jadwal) {
         try {
-            const response = await fetch('http://localhost:3000/api/2024');
+            const response = await fetch(`http://localhost:3000/api/semester?params=${parameter_jadwal}`);
             const courses = await response.json();
             populateTable(courses);
             calculateTotalSKS(courses);
@@ -56,11 +56,19 @@ document.addEventListener('DOMContentLoaded', () => {
         semesterDropdown.innerHTML = ''; // Clear existing options
         semesters.forEach(semester => {
             const option = document.createElement('option');
-            option.value = semester.parameter_jadwal;
-            option.textContent = semester.sesi;
+            option.value = semester.parameter_jadwal; // Store parameter_jadwal as value
+            option.textContent = semester.sesi; // Display sesi as text
             semesterDropdown.appendChild(option);
         });
     }
+
+    // Event listener for dropdown selection
+    semesterDropdown.addEventListener('change', () => {
+        const selectedParameter = semesterDropdown.value; // Get the selected parameter_jadwal
+        if (selectedParameter) {
+            fetchCourses(selectedParameter); // Fetch courses based on selected parameter
+        }
+    });
 
     // Search functionality
     searchInput.addEventListener('input', () => {
@@ -76,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Initial fetch
-    fetchCourses();
+    // Initial fetch for semesters
     fetchSemesters();
 });
