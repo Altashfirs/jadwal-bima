@@ -2,16 +2,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const courseBody = document.getElementById('courseBody');
     const searchInput = document.getElementById('searchInput');
     const totalSKSContainer = document.getElementById('totalSKS');
+    const semesterDropdown = document.getElementById('semesterDropdown');
 
     // Fetch data from the API
     async function fetchCourses() {
         try {
-            const response = await fetch('https://jadwal-bima-production.up.railway.app/api');
+            const response = await fetch('http://localhost:3000/api/2024');
             const courses = await response.json();
             populateTable(courses);
             calculateTotalSKS(courses);
         } catch (error) {
             console.error('Error fetching data:', error);
+        }
+    }
+
+    // Fetch semester data from the API
+    async function fetchSemesters() {
+        try {
+            const response = await fetch('http://localhost:3000/api/semester');
+            const semesters = await response.json();
+            populateDropdown(semesters);
+        } catch (error) {
+            console.error('Error fetching semester data:', error);
         }
     }
 
@@ -39,6 +51,17 @@ document.addEventListener('DOMContentLoaded', () => {
         totalSKSContainer.textContent = `Total SKS: ${totalSKS}`;
     }
 
+    // Populate the dropdown with semester data
+    function populateDropdown(semesters) {
+        semesterDropdown.innerHTML = ''; // Clear existing options
+        semesters.forEach(semester => {
+            const option = document.createElement('option');
+            option.value = semester.parameter_jadwal;
+            option.textContent = semester.sesi;
+            semesterDropdown.appendChild(option);
+        });
+    }
+
     // Search functionality
     searchInput.addEventListener('input', () => {
         const filter = searchInput.value.toLowerCase();
@@ -55,4 +78,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial fetch
     fetchCourses();
+    fetchSemesters();
 });
